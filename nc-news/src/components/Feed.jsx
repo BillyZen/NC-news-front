@@ -16,8 +16,8 @@ export default function Feed () {
     }, [])
 
     return (
-         isLoading ? <p>Loading...</p> : (
-        <section>
+         isLoading ? <p>Loading your feed...</p> : (
+        <main className="section-feed">
             <h3>Your feed</h3>
             <ul>
             {articles.map(article => {
@@ -25,15 +25,14 @@ export default function Feed () {
                     <li key={article.title}>
                         <div className="article-txt">
                             <h4>{article.title}</h4>
-                            <p>{article.author}</p>
-                            <p>{article.topic}</p>
-                            <p>{article.votes}</p>
-                            <p>{article.created_at}</p>
+                            <p>Author - {article.author}</p>
+                            <p>Topic - {article.topic}</p>
+                            <p>Votes - {article.votes}</p>
                         </div>
                     </li>
                 )
             })}
             </ul>
-        </section>
+        </main>
     ))
 }
