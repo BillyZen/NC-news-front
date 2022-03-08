@@ -8,14 +8,18 @@ export default function Article () {
 
     const [article, setArticle] = useState({})
     const [isLoading, setIsLoading] = useState(true)
+    const [votes, setVotes] = useState(0)
 
     useEffect(() => {
             api.getArticle(article_id)
             .then(articleData =>{
             setArticle(articleData)
             setIsLoading(false)    
-        }, [])
-    })
+        })
+    }, [])
+
+
+    const voteGiven = votes === 1
 
     return ( isLoading ? <p>Loading your article...</p> : (
         <main className="article-container">
@@ -25,7 +29,15 @@ export default function Article () {
                 <h4>Topic: {article.topic}</h4>
             </div>
             <div className="article-footer">
-                <h5>Votes: {article.votes}</h5>
+                <h5>Votes: {votes + article.votes} 
+                <button className={voteGiven ? "hide" : "show"} onClick={()=> {
+                    if(!voteGiven) {
+                        setVotes(1)
+                        api.updateArticleVotes(article_id)
+                    }
+                }}>
+                +</button>
+                </h5>
                 <h5>Posted: {article.created_at}</h5>
             </div>
             <div className="article-body">
