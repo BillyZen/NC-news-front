@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom"
+import {useParams, Link} from "react-router-dom"
 import {useState, useEffect} from "react"
 import * as api from "../api"
 import Comments from "./Comments"
@@ -13,16 +13,15 @@ export default function Article () {
 
     useEffect(() => {
             api.getArticle(article_id)
-            .then(articleData =>{
+            .then((articleData) =>{
             setArticle(articleData)
-            setIsLoading(false)    
+            setIsLoading(false)
         })
     }, [article_id])
 
-
     const voteGiven = votes === 1
 
-    return ( isLoading ? <p>Loading your article...</p> : (
+    return ( isLoading ? <p>Loading your article...</p> : article.article_id ? (
         <main className="article-container">
             <div className="article-header">
                 <h3>{article.title}</h3>
@@ -48,5 +47,9 @@ export default function Article () {
                 <Comments id={article_id}/>
             </div>
         </main>
-    ))
-}
+    ): 
+            <main className="error-page">
+                <h1>Article does not exist</h1>
+                <Link to="/">Back to safety</Link>
+            </main>
+    )}
