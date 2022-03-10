@@ -1,22 +1,24 @@
 import * as api from "../api"
 import {useState, useEffect} from "react"
+import AddComment from "./AddComment"
 
 export default function Comments ({id}) {
 
     const [comments, setComments] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    
 
     useEffect(() => {
             api.getComments(id)
             .then(commentData =>{
             setComments(commentData)
-            setIsLoading(false)    
+            setIsLoading(false)
         })
     }, [id])
 
-
     return ( isLoading ? <p>Loading comments...</p> : (
         <div>
+            <AddComment comments={comments} setComments={setComments} id={id}/>
             <ul className="article-comments">
                 {comments.length === 0 ?  <p>Be the first to comment!</p> : comments.map(comment => {
                 return (
